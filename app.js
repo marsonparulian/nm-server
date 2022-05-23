@@ -25,6 +25,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// Catch all request
+app.use((req, res, next) => {
+  const options = {
+    root: path.join(__dirname, 'public'),
+  };
+  res.sendFile('index.html', options, (err) => {
+    if (err) {
+      next(err);
+    }
+  });
+});
+
+// Block code below is no longer functional, but kept for future considerations.
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
